@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  notion-rss
+
+  Sample SAM Template for notion-rss
+
+Globals:
+  Function:
+    Timeout: 850
+    Environment:
+      Variables:
+        TZ: Asia/Tokyo
+
+Resources:
+  Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: "lambda-notion-rss"
+      CodeUri: ./lambda_rss
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Architectures:
+        - x86_64
+
+Outputs:
+  NotionRssFunction:
+    Description: "GET RSS Notion Register Function ARN"
+    Value: !GetAtt Function.Arn
+  NotionRssFunctionIamRole:
+    Description: "Implicit IAM Role created for GET RSS Notion Register Function"
+    Value: !GetAtt FunctionRole.Arn
