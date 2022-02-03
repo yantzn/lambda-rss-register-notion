@@ -13,7 +13,10 @@ def lambda_handler(event, context):
 
         ## RSSから記事情報を取得する
         for url_list in rss_url_list["rsslist"]:
-            rss_list += get_rss(url_list["url"], url_list["tag"], interval=-60)
+            rss_list += get_rss(url_list["url"], url_list["tag"], interval=60)
+
+        # 新しい順に投稿するためソートする
+        rss_list = sorted(rss_list, key=lambda x: x.published_date)
 
         ## 更新対象の記事がある場合、Notionに登録を行う
         if rss_list:

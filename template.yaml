@@ -3,8 +3,6 @@ Transform: AWS::Serverless-2016-10-31
 Description: >
   notion-rss
 
-  Sample SAM Template for notion-rss
-
 Globals:
   Function:
     Timeout: 850
@@ -13,7 +11,7 @@ Globals:
         TZ: Asia/Tokyo
 
 Resources:
-  Function:
+  NotionRSSFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: "lambda-notion-rss"
@@ -22,11 +20,45 @@ Resources:
       Runtime: python3.8
       Architectures:
         - x86_64
+      Role: !GetAtt NotionRSSFunctionRole.Arn
+      Events:
+        RSSGetSchedule:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 hour) # 1時間毎
+            Input: |
+              {
+                "region": "tokyo"
+              }
 
-Outputs:
-  NotionRssFunction:
-    Description: "GET RSS Notion Register Function ARN"
-    Value: !GetAtt Function.Arn
-  NotionRssFunctionIamRole:
-    Description: "Implicit IAM Role created for GET RSS Notion Register Function"
-    Value: !GetAtt FunctionRole.Arn
+  NotionRSSFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Action: "sts:AssumeRole"
+            Principal:
+              Service: lambda.amazonaws.com
+      ManagedPolicyArns:
+        - !Ref NotionRSSFunctionPolicy
+
+  NotionRSSFunctionPolicy:
+      Type: AWS::IAM::ManagedPolicy
+      Properties:
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - "logs:CreateLogStream"
+                  - "logs:CreateLogGroup"
+                  - "logs:PutLogEvents"
+                Resource: "*"
+              - Effect: "Allow"
+                Action:
+                  - "secretsmanager:GetSecretValue"
+                  - "ssm:GetParameters"
+                  - "ssm:GetParameter"
+                Resource: "*"
