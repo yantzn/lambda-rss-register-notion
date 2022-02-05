@@ -13,7 +13,7 @@ lambdaで取得した記事をNotionのデータベースに登録するアプ�
 
 SAM CLIを使用するには、次のツールをインストールしておく
 
- SAM CLI - [Install the SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
+* SAM CLI - [Install the SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
 * [Python 3 installed](https://www.python.org/downloads/)
 * Docker - [Install Docker community edition](https://hub.docker.com/search/?type=edition&offering=community)
 
@@ -37,10 +37,8 @@ https://www.notion.so/my-integrations
 
 URLの「?v」の前にある文字列部分を取得する
 
-```
-
+``` text
 https://www.notion.so/{workspace_name}/{database_id}?v={view_id}
-
 ```
 
 ## AWS System Managerの設定
@@ -88,7 +86,7 @@ https://www.notion.so/{workspace_name}/{database_id}?v={view_id}
 
 ```bash
 sam build 
-sam local invoke HelloWorldFunction --event events/event.json
+sam local invoke   NotionRSSFunction --event events/event.json
 sam deploy --guided
 ```
 
