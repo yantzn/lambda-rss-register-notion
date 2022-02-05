@@ -3,7 +3,7 @@ version = 0.1
 [default.deploy]
 [default.deploy.parameters]
 stack_name = "lambda-notion-rss"
-s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-kf7zh708pa4n"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-6khiref5byxf"
 s3_prefix = "lambda-notion-rss"
 region = "ap-northeast-1"
 confirm_changeset = true
