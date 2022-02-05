@@ -55,7 +55,7 @@ Resources:
                   - "logs:CreateLogStream"
                   - "logs:CreateLogGroup"
                   - "logs:PutLogEvents"
-                Resource: "*"
+                Resource: "arn:aws:logs:ap-northeast-1:*:*"
               - Effect: "Allow"
                 Action:
                   - "secretsmanager:GetSecretValue"
