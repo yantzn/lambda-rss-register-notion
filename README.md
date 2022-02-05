@@ -86,7 +86,7 @@ https://www.notion.so/{workspace_name}/{database_id}?v={view_id}
 
 ```bash
 sam build 
-sam local invoke   NotionRSSFunction --event events/event.json
+sam local invoke NotionRSSFunction --event events/event.json
 sam deploy --guided
 ```
 
