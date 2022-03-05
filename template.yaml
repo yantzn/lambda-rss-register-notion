@@ -5,22 +5,22 @@ Description: >
 
 Globals:
   Function:
-    Timeout: 850
+    Timeout: 900
     Environment:
       Variables:
         TZ: Asia/Tokyo
 
 Resources:
-  NotionRSSFunction:
+  NotionRegisterFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: "lambda-notion-rss"
-      CodeUri: ./lambda_rss
+      FunctionName: "lambda-notion-rss-register"
+      CodeUri: ./lambda_notion_rss_register
       Handler: app.lambda_handler
       Runtime: python3.8
       Architectures:
         - x86_64
-      Role: !GetAtt NotionRSSFunctionRole.Arn
+      Role: !GetAtt NotionRegisterFunctionRole.Arn
       Events:
         RSSGetSchedule:
           Type: Schedule
@@ -30,8 +30,17 @@ Resources:
               {
                 "region": "tokyo"
               }
+  #     Layers:
+  #     - !Ref CommonLayer
 
-  NotionRSSFunctionRole:
+  # CommonLayer:
+  #   Type: AWS::Serverless::LayerVersion
+  #   Properties:
+  #     LayerName: notion_common-layer
+  #     Description: Common Application Resource Layer
+  #     ContentUri: ./layers
+
+  NotionRegisterFunctionRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
@@ -42,9 +51,9 @@ Resources:
             Principal:
               Service: lambda.amazonaws.com
       ManagedPolicyArns:
-        - !Ref NotionRSSFunctionPolicy
+        - !Ref NotionRegisterFunctionPolicy
 
-  NotionRSSFunctionPolicy:
+  NotionRegisterFunctionPolicy:
       Type: AWS::IAM::ManagedPolicy
       Properties:
           PolicyDocument:

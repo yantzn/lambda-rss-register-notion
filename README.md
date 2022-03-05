@@ -86,10 +86,16 @@ https://www.notion.so/{workspace_name}/{database_id}?v={view_id}
 
 ```bash
 sam build 
-sam local invoke NotionRSSFunction --event events/event.json
+sam local invoke NotionRegisterFunction --event events/event.json
 sam deploy --guided
 ```
 
 ## 実行結果
 
+データベースに追加される
+
 ![](/doc/notion.png)
+
+記事の内容がページに登録される
+
+![](/doc/notion_page.png)

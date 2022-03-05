@@ -13,6 +13,5 @@ def get_target_url() -> List[str]:
         Name='RSSURLList'
     )['Parameter']['Value']
     # url_paramには改行区切りでURLが保存されているので、改行で分割して出力
-#    url_list: List[str] = url_param.split("\n")
     json_dict = json.loads(url_param)
     return json_dict
