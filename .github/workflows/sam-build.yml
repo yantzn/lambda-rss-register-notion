@@ -24,7 +24,7 @@ jobs:
           cache-dependency-path: 'lambda_notion_rss_register/requirements.txt'
 
       - name: pip install
-        run: pip install -r tests/requirements.txt
+        run: pip install -r lambda_notion_rss_register/requirements.txt
 
       - name: Setup AWS SAM CLI
         uses: aws-actions/setup-sam@v2
