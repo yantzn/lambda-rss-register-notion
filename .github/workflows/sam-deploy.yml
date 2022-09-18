@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  AWS_ROLE_ARN: arn:aws:iam::{secrets.AWS_ACCOUNT_ID}:role/{secrets.IAM_ROLE_NAME} # 作成したIAMロールのARN
+  AWS_ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ secrets.IAM_ROLE_NAME }} # 作成したIAMロールのARN
 
 jobs:
   build:
