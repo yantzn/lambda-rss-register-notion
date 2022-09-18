@@ -1,13 +1,7 @@
 name: sam-build
 on:
+  pull_request:
   workflow_call:
-    inputs:
-      name:
-        required: true
-        type: string
-    secrets:
-      my-secret:
-        required: true
 
 jobs:
   build:
