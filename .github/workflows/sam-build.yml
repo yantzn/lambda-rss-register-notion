@@ -3,6 +3,9 @@ on:
   pull_request:
   workflow_call:
 
+env:
+  AWS_ROLE_ARN: arn:aws:iam::{AWS_ACCOUNT_ID}:role/{IAM_ROLE_NAME} # 作成したIAMロールのARN
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -33,7 +36,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: ${{ secrets.AWS_REGION }}
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-OIDCRole
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
           role-session-name: SAMBuildSession
 
       - name: sam build
