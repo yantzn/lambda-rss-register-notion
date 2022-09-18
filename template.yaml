@@ -10,25 +10,6 @@ Globals:
       Variables:
         TZ: Asia/Tokyo
 
-Parameters:
-#  Environment:
-#    Type: String
-#    Default: dev
-  GitHubOrg:
-    Type: String
-    Default: "yantzn"
-  RepositoryName:
-    Type: String
-    Default: "lambda-rss-register-notion"
-  OIDCProviderArn:
-    Type: String
-    Default: ""
-
-Conditions:
-  CreateOIDCProvider: !Equals
-    - !Ref OIDCProviderArn
-    - ""
-
 Resources:
   NotionRegisterFunction:
     Type: AWS::Serverless::Function
@@ -58,34 +39,6 @@ Resources:
   #     LayerName: notion_common-layer
   #     Description: Common Application Resource Layer
   #     ContentUri: ./layers
-
-
-  GithubOidc:
-    Type: AWS::IAM::OIDCProvider
-    Condition: CreateOIDCProvider
-    Properties:
-      Url: https://token.actions.githubusercontent.com
-      ClientIdList:
-        - sts.amazonaws.com
-      ThumbprintList:
-        - 6938fd4d98bab03faadb97b34396831e3780aea1
-  GithubOIDCRole:
-    Type: AWS::IAM::Role
-    Properties:
-      RoleName: !Sub "github-OIDCRole"
-      AssumeRolePolicyDocument:
-        Statement:
-          - Effect: Allow
-            Action: sts:AssumeRoleWithWebIdentity
-            Principal:
-              Federated: !If
-                - CreateOIDCProvider
-                - !Ref OidcProvider
-                - !Ref OIDCProviderArn
-            Condition:
-              StringLike:
-                token.actions.githubusercontent.com:sub: !Sub repo:${GitHubOrg}/${RepositoryName}:*
-
 
   NotionRegisterFunctionRole:
     Type: AWS::IAM::Role
@@ -117,13 +70,4 @@ Resources:
                   - "secretsmanager:GetSecretValue"
                   - "ssm:GetParameters"
                   - "ssm:GetParameter"
-                Resource: "*"
-              - Effect: Allow
-                Action:
-                  - cloudformation:CreateStack
-                  - cloudformation:CreateChangeSet
-                  - cloudformation:ExecuteChangeSet
-                  - cloudformation:Describe*
-                  - cloudformation:Get*
-                  - cloudformation:ValidateTemplate
                 Resource: "*"
