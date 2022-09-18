@@ -40,4 +40,4 @@ jobs:
         run: sam build
 
       - name: sam deploy
-      - run: sam deploy --s3-bucket ${{ secrets.S3_BUCKET_NAME }} --no-confirm-changeset --no-fail-on-empty-changeset
+        run: sam deploy --s3-bucket ${{ secrets.S3_BUCKET_NAME }} --no-confirm-changeset --no-fail-on-empty-changeset
