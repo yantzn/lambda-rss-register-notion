@@ -5,7 +5,7 @@ on:
       - master
 jobs:
   build:
-    uses: ./.github/workflows/sam-build.yml
+    uses: /.github/workflows/sam-build.yml
     secrets: inherit
 
   deploy:
