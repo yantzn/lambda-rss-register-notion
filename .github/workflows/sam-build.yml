@@ -1,5 +1,3 @@
-name: sam-build
-
 on:
   workflow_call:
     inputs:
