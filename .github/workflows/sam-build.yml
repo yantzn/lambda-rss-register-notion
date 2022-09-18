@@ -1,21 +1,17 @@
-name: sam-deploy
-on:
-  push:
-    branches:
-      - master
-jobs:
-  build:
-    uses: ./.github/workflows/sam-build.yml
-    secrets: inherit
+name: sam-build
 
-  deploy:
-    needs: [ build ]
+on:
+  pull_request:
+  workflow_call:
+
+ jobs:
+  build:
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
     permissions:
-     contents: 'read'
-     id-token: 'write'
+      contents: 'read'
+      id-token: 'write'
 
     steps:
       - name: Checkout
@@ -25,6 +21,11 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: '3.8'
+          cache: 'pip'
+          cache-dependency-path: 'lambda_notion_rss_register/requirements.txt'
+
+      - name: pip install
+        run: pip install -r tests/requirements.txt
 
       - name: Setup AWS SAM CLI
         uses: aws-actions/setup-sam@v2
@@ -34,10 +35,7 @@ jobs:
         with:
           aws-region: ${{ secrets.AWS_REGION }}
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-OIDCRole
-          role-session-name: SAMDeploySession
+          role-session-name: SAMBuildSession
 
       - name: sam build
         run: sam build
-
-      - name: sam deploy
-      - run: sam deploy --s3-bucket ${{ secrets.S3_BUCKET_NAME }} --no-confirm-changeset --no-fail-on-empty-changeset

@@ -34,6 +34,7 @@ def register_notion(rss_list:dict) -> None:
             soup = BeautifulSoup(requests.get(rss.url).content, 'html.parser')
 
             articleTag = soup.find_all("div", {"class": "content"})
+
             if not articleTag:
                 articleTag = soup.find_all(['section','article'])
 
@@ -66,7 +67,6 @@ def register_notion(rss_list:dict) -> None:
                     if tag.name == 'blockquote':
                         if tag.get_text(strip=True):
                             block.append(append_message("quote",tag.get_text(strip=True)))
-
             ## Notionに登録を行う
             notion.pages.create(
                 parent={'database_id': database_id},
@@ -93,8 +93,8 @@ def checkURL(url)->bool:
 
 def checkExtension(url)->bool:
     ext = os.path.splitext(url)
-    chkTargetTxt = ['png','jpg','jpeg','gif','tif','tiff','bmp','svg','heic']
-    if ext in chkTargetTxt:
+    chkTargetTxt = ['.png','.jpg','.jpeg','.gif','.tif','.tiff','.bmp','.svg','.heic']
+    if ext[1] in chkTargetTxt:
         return True
     else:
         return False
