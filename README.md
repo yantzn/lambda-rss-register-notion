@@ -85,9 +85,10 @@ https://www.notion.so/{workspace_name}/{database_id}?v={view_id}
 
 
 ```bash
-sam build 
+pip install -r lambda_notion_rss_register/requirements.txt
+sam build --use-container
 sam local invoke NotionRegisterFunction --event events/event.json
-sam deploy --guided
+sam deploy --s3-bucket <your-s3-bucket-name>
 ```
 
 ## 実行結果
