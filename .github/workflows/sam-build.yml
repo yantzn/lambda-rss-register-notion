@@ -12,8 +12,8 @@ jobs:
     timeout-minutes: 5
 
     permissions:
-      contents: read
       id-token: write
+      contents: read
 
     steps:
       - name: Checkout
@@ -40,4 +40,4 @@ jobs:
           role-session-name: SAMBuildSession
 
       - name: sam build
-        run: sam build
+        run: sam build --use-container

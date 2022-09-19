@@ -19,8 +19,8 @@ jobs:
     timeout-minutes: 5
 
     permissions:
-      contents: read
       id-token: write
+      contents: read
 
     steps:
       - name: Checkout
@@ -42,7 +42,7 @@ jobs:
           role-session-name: SAMDeploySession
 
       - name: sam build
-        run: sam build
+        run: sam build --use-container
 
       - name: sam deploy
         run: sam deploy --s3-bucket ${{ secrets.S3_BUCKET_NAME }} --no-confirm-changeset --no-fail-on-empty-changeset
